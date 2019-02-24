@@ -1,0 +1,15 @@
+<section>
+</section>
+<div class="jumbotron jumbotron-fluid">
+  <div class="container">
+    <h1 class="display-4">
+      <a [href]="project.githubUrl" target="_blank">
+        {{ project.user}} / {{ project.name}}
+      </a>
+    </h1>
+    <markdown [src]="project.readme"
+              lineHighlight
+              [line]="'6, 10-16'"
+              [lineOffset]="5"></markdown>
+  </div>
+</div>

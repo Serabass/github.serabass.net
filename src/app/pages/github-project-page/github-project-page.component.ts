@@ -1,7 +1,6 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {Project, ProjectsService} from '../../services/projects.service';
 import {ActivatedRoute} from '@angular/router';
-import {HttpClient} from '@angular/common/http';
 
 @Component({
   selector: 'app-github-project-page',
@@ -10,14 +9,15 @@ import {HttpClient} from '@angular/common/http';
 })
 export class GithubProjectPageComponent implements OnInit {
 
+  @Input()
   public project: Project;
 
   constructor(public projectService: ProjectsService,
               public route: ActivatedRoute) {
   }
 
-  ngOnInit() {
-    this.route.params.subscribe((params) => {
+  async ngOnInit() {
+    await this.route.params.subscribe(params => {
       this.project = this.projectService.find(params as any);
     });
   }

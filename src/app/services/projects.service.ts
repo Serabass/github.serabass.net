@@ -1,5 +1,12 @@
 import {Injectable} from '@angular/core';
 
+export class ProjectGroup {
+  public constructor(public url: string,
+                     public title: string,
+                     public projects: Project[] = []) {
+  }
+}
+
 export class Project {
   public constructor(public user: string,
                      public name: string) {
@@ -24,16 +31,35 @@ export class Project {
 })
 export class ProjectsService {
 
-  public projects = [
-    new Project('dcut', 'doc'),
-    new Project('Serabass', 'ts'),
-    new Project('Serabass', 'nasa-graphql'),
-  ];
+  public groups = [
+    [
+      'Serabass', 'Own projects', [
+      'parserbin',
+      'ts',
+      'nasa-graphql',
+      'github.serabass.net',
+      'createremotethread',
+      'bsime.net',
+      'pageparser',
+      'yaroute',
+      'gp5-parser',
+    ],
+    ],
+    [
+      'dcut', 'DCut', ['doc']
+    ]
+  ] as any;
 
   constructor() {
+    this.groups = this.groups.map(group => {
+      let [url, title, projects] = group;
+      projects = projects.map(project => new Project(url, project));
+      return new ProjectGroup(url, title, projects);
+    });
   }
 
   public find({user, name}) {
-    return this.projects.find(project => project.user === user && project.name === name);
+    return this.groups.find(group => group.url === user)
+      .projects.find(project => project.name === name);
   }
 }
